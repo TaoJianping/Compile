@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/tao/CLionProjects/Compile/PrattParser.cpp
+PrattParser.h
+/home/tao/CLionProjects/Compile/PrattParser.h
+
+/home/tao/CLionProjects/Compile/PrattParser.h
+
+/home/tao/CLionProjects/Compile/Scanner.cpp
+Scanner.h
+/home/tao/CLionProjects/Compile/Scanner.h
+Scanner.h
+/home/tao/CLionProjects/Compile/Scanner.h
+utility
+-
+
+/home/tao/CLionProjects/Compile/Scanner.h
+cstddef
+-
+string
+-
+
+/home/tao/CLionProjects/Compile/main.cpp
+iostream
+-
+
