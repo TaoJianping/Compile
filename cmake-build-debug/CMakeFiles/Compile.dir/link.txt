@@ -1,1 +1,0 @@
-/usr/bin/clang++  -g   CMakeFiles/Compile.dir/main.cpp.o CMakeFiles/Compile.dir/Scanner.cpp.o CMakeFiles/Compile.dir/PrattParser.cpp.o  -o Compile 
