@@ -5,11 +5,40 @@
 #ifndef COMPILE_PRATTPARSER_H
 #define COMPILE_PRATTPARSER_H
 
+#include <vector>
+
+#include "Scanner.h"
+#include "Expression.h"
+
+
+using std::vector;
+using Lexer::Token;
+using Parser::Expression;
+
 namespace Parser
 {
+
+	enum class Precedence : int32_t
+	{
+		PREC_NONE,
+		PREC_TERM,        // + -
+		PREC_FACTOR,      // * /
+		PREC_UNARY,       // ! -
+	};
+
+
 	class PrattParser
 	{
-
+	private:
+		vector<Token*> tokens;
+		Expression* parsePrecedence(Precedence precedence);
+		size_t index = 0;
+		Token* next();
+		Token* current();
+		Token* previous();
+	public:
+		explicit PrattParser(vector<Token*> tokens);
+		Expression* parse();
 	};
 
 }
