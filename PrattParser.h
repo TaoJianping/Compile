@@ -6,6 +6,7 @@
 #define COMPILE_PRATTPARSER_H
 
 #include <vector>
+#include <functional>
 
 #include "Scanner.h"
 #include "Expression.h"
@@ -26,6 +27,12 @@ namespace Parser
 		PREC_UNARY,       // ! -
 	};
 
+	struct ParseRule
+	{
+		std::function<void()> prefix;
+		std::function<void()> infix;
+		Precedence precedence;
+	};
 
 	class PrattParser
 	{

@@ -20,7 +20,8 @@ Expression* Parser::PrattParser::parse()
 
 Expression* Parser::PrattParser::parsePrecedence(Precedence precedence)
 {
-
+	this->next();
+	auto rule = this->getRule(this->previous());
 }
 
 Token* Parser::PrattParser::next()
