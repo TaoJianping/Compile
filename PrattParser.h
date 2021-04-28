@@ -29,8 +29,8 @@ namespace Parser
 
 	struct ParseRule
 	{
-		std::function<void()> prefix;
-		std::function<void()> infix;
+		std::function<Expression*()> prefix;
+		std::function<Expression*()> infix;
 		Precedence precedence;
 	};
 
@@ -43,6 +43,13 @@ namespace Parser
 		Token* next();
 		Token* current();
 		Token* previous();
+		ParseRule getRule(Token* token);
+		Expression* expression();
+		Expression* readNumber();
+		Expression* readBinary();
+		Expression* readGroup();
+		Expression* readUnary();
+
 	public:
 		explicit PrattParser(vector<Token*> tokens);
 		Expression* parse();

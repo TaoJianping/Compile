@@ -29,6 +29,7 @@ namespace Parser
 	class Grouping : public Expression
 	{
 	public:
+		explicit Grouping(Expression* expr);
 		Expression* expression;
 	};
 
@@ -42,6 +43,7 @@ namespace Parser
 	class Literal : public Expression
 	{
 	public:
+		explicit Literal(Token* token);
 		Token* value;
 	};
 }
