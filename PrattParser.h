@@ -6,6 +6,7 @@
 #define COMPILE_PRATTPARSER_H
 
 #include <vector>
+#include <stack>
 #include <functional>
 
 #include "Scanner.h"
@@ -15,6 +16,7 @@
 using std::vector;
 using Lexer::Token;
 using Parser::Expression;
+using std::stack;
 
 namespace Parser
 {
@@ -30,13 +32,14 @@ namespace Parser
 	struct ParseRule
 	{
 		std::function<Expression*()> prefix;
-		std::function<Expression*()> infix;
+		std::function<Expression*(Expression* left)> infix;
 		Precedence precedence;
 	};
 
 	class PrattParser
 	{
 	private:
+		stack<Expression*> _stack;
 		vector<Token*> tokens;
 		Expression* parsePrecedence(Precedence precedence);
 		size_t index = 0;
@@ -46,7 +49,7 @@ namespace Parser
 		ParseRule getRule(Token* token);
 		Expression* expression();
 		Expression* readNumber();
-		Expression* readBinary();
+		Expression* readBinary(Expression* left);
 		Expression* readGroup();
 		Expression* readUnary();
 

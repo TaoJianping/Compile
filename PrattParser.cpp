@@ -5,8 +5,10 @@
 #include "PrattParser.h"
 
 #include <utility>
+#include <iostream>
 
 using Parser::Precedence;
+using std::cout;
 
 Parser::PrattParser::PrattParser(vector<Token*> tokens) : tokens(std::move(tokens))
 {
@@ -22,9 +24,22 @@ Expression* Parser::PrattParser::parsePrecedence(Precedence precedence)
 {
 	this->next();
 	auto rule = this->getRule(this->previous());
+
+	if (rule.prefix == nullptr)
+	{
+		std::cout << "Prefix Lost";
+		return nullptr;
+	}
 	auto left = rule.prefix();
 
-	while (static_cast<int32_t>(precedence) < )
+	while (precedence <= (this->getRule(this->current()).precedence))
+	{
+		this->next();
+		auto rule = this->getRule(this->previous());
+		left = rule.infix(left);
+	}
+
+	return left;
 }
 
 Token* Parser::PrattParser::next()
@@ -48,8 +63,8 @@ Parser::ParseRule Parser::PrattParser::getRule(Token* token)
 	auto readNumberFunction = [this]()
 	{ return this->readNumber(); };
 
-	auto binaryFunction = [this]()
-	{ return this->readBinary(); };
+	auto binaryFunction = [this](Expression* left)
+	{ return this->readBinary(left); };
 
 	auto unaryFunction = [this]()
 	{ return this->readUnary(); };
@@ -82,16 +97,22 @@ Expression* Parser::PrattParser::readNumber()
 	return new Literal(this->previous());
 }
 
-Expression* Parser::PrattParser::readBinary()
+Expression* Parser::PrattParser::readBinary(Expression* left)
 {
+	auto be = new Binary();
 
+	be->left = left;
+	be->_operator = this->previous();
+	be->right = this->expression();
 
-	return new Binary();
+	return be;
 }
 
 Expression* Parser::PrattParser::readGroup()
 {
-	return new Grouping(this->expression());
+	auto g = new Grouping(this->expression());
+	this->next();
+	return g;
 }
 
 Expression* Parser::PrattParser::expression()
@@ -102,9 +123,10 @@ Expression* Parser::PrattParser::expression()
 Expression* Parser::PrattParser::readUnary()
 {
 	auto prefix = this->previous();
-	auto num = this->current();
-	this->next();
+	auto exp = this->parsePrecedence(Precedence::PREC_UNARY);
 
-	num->lexeme = "-" + num->lexeme;
-	return new Literal(num);
+	auto u = new Unary;
+	u->right = exp;
+	u->_operator = prefix;
+	return u;
 }
