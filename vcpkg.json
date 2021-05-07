@@ -1,0 +1,10 @@
+{
+    "name": "Compile",
+    "version": "1.0.0",
+    "dependencies": [
+        "gtest",
+        "glog",
+        "abseil"
+    ],
+    "builtin-baseline": "4ef97c2c33275d7b763e3f5b3308f4bead0a0b08"
+}
