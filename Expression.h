@@ -15,7 +15,8 @@ namespace Parser
 {
 	class Expression
 	{
-
+	public:
+		virtual  ~Expression() = default;
 	};
 
 	class Binary : public Expression

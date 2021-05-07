@@ -7,6 +7,9 @@
 
 #include <cstddef>
 #include <string>
+#include <vector>
+
+using std::vector;
 
 namespace Lexer
 {
@@ -90,6 +93,8 @@ namespace Lexer
 
 	public:
 		Token scanToken();
+
+		vector<Token*> scanTokens();
 
 		explicit Scanner(string source);
 	};

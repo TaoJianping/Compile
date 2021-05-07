@@ -278,3 +278,25 @@ TokenType Scanner::checkKeyword(int startIndex, int length, string rest, TokenTy
 
 	return TokenType::TOKEN_IDENTIFIER;
 }
+
+vector<Token*> Lexer::Scanner::scanTokens()
+{
+	auto r = vector<Token*>();
+
+	while (!this->isAtEnd())
+	{
+		auto t = this->scanToken();
+		auto tp = new Token {};
+		tp->lexeme = t.lexeme;
+		tp->type = t.type;
+		tp->length = t.length;
+		tp->line = t.line;
+		r.push_back(tp);
+	}
+
+	auto end = new Token;
+	end->type = TokenType::TOKEN_EOF;
+
+	r.push_back(end);
+	return r;
+}

@@ -15,15 +15,19 @@
 
 using std::vector;
 using Lexer::Token;
+using Lexer::TokenType;
 using Parser::Expression;
 using std::stack;
 
 namespace Parser
 {
+	class ParseException : std::exception {
+	};
 
 	enum class Precedence : int32_t
 	{
 		PREC_NONE,
+		PREC_ASSIGNMENT,  // =
 		PREC_TERM,        // + -
 		PREC_FACTOR,      // * /
 		PREC_UNARY,       // ! -
@@ -46,12 +50,21 @@ namespace Parser
 		Token* next();
 		Token* current();
 		Token* previous();
+
+		bool check(TokenType type);
+		bool isAtEnd();
+		Token* peek();
+		Token* advance();
+		Token* consume(TokenType, const std::string &);
+
 		ParseRule getRule(Token* token);
 		Expression* expression();
 		Expression* readNumber();
 		Expression* readBinary(Expression* left);
 		Expression* readGroup();
 		Expression* readUnary();
+
+
 
 	public:
 		explicit PrattParser(vector<Token*> tokens);
